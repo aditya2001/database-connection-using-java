@@ -44,7 +44,18 @@ public class OracleConnection {
         String password = "password";
         try {
             Connection conn = DriverManager.getConnection(host, username, password);
-            System.out.println("Connected to Oracle database");
+            if (conn != null) {
+                System.out.println("Connected to Oracle database");
+                stmt = conn.createStatement();
+                String QUERY = "SELECT EMPID, FIRSTNAME, LASTNAME FROM EMPLOYEE";
+                ResultSet rs = stmt.executeQuery(QUERY);
+                while(rs.next()){
+                    //Display values
+                    System.out.print("EMPID: " + rs.getInt("EMPID"));
+                    System.out.print(", FIRSTNAME: " + rs.getString("FIRSTNAME"));
+                    System.out.println(", LASTNAME: " + rs.getString("LASTNAME"));
+                }
+            }
         } catch (SQLException e) {
             System.out.println("Failed to connect to Oracle database");
             e.printStackTrace();
